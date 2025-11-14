@@ -751,7 +751,7 @@ def build_webrtc(
 
 
 def copy_headers(webrtc_src_dir, webrtc_package_dir, target):
-    if target in ['windows_x86_64', 'windows_arm64']:
+    if target in ['windows_x86', 'windows_x86_64', 'windows_arm64']:
         # robocopy の戻り値は特殊なので、check=False にしてうまくエラーハンドリングする
         # https://docs.microsoft.com/ja-jp/troubleshoot/windows-server/backup-and-storage/return-codes-used-robocopy-utility
         r = cmd(['robocopy', webrtc_src_dir, os.path.join(webrtc_package_dir, 'include'),
@@ -837,7 +837,7 @@ def package_webrtc(source_dir, build_dir, package_dir, target,
     generate_version_info(webrtc_src_dir, webrtc_package_dir)
 
     # ライブラリ
-    if target in ['windows_x86_64', 'windows_arm64']:
+    if target in ['windows_x86', 'windows_x86_64', 'windows_arm64']:
         files = [
             (['obj', 'webrtc.lib'], ['lib', 'webrtc.lib']),
         ]
@@ -884,7 +884,7 @@ def package_webrtc(source_dir, build_dir, package_dir, target,
 
     # 圧縮
     with cd(package_dir):
-        if target in ['windows_x86_64', 'windows_arm64']:
+        if target in ['windows_x86', 'windows_x86_64', 'windows_arm64']:
             with zipfile.ZipFile(f'webrtc.{target}.zip', 'w') as f:
                 for file in enum_all_files('webrtc', '.'):
                     f.write(filename=file, arcname=file)
