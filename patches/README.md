@@ -24,24 +24,19 @@ limitations under the License.
 
 ## 4k.patch
 
+v4l2 で 4K に対応するパッチ。
 
-## add_dep_zlib.patch
+## add_deps.patch
 
+zlib, log_sinks, サイマルキャストのエンコーダーアダプターを追加するパッチ。
+
+## add_license_dav1d.patch
+
+AV1 デコーダー (dav1d) のライセンスを追加するパッチ。
 
 ## android_fixsegv.patch
 
 Android にて映像フレームの処理時にクラッシュするいくつかの現象を修正するパッチ。
-
-同等の機能が本家に実装されるか、 PR を出して取り込まれたら削除する。
-
-## android_simulcast.patch
-
-Android でのサイマルキャストのサポートを追加するパッチ。この実装は C++ の `SimulcastEncoderAdapter` の簡単なラッパーであり、既存の仕様に破壊的変更も行わない。
-
-以下の API を追加する。
-
-- `SimulcastVideoEncoder`
-- `SimulcastVideoEncoderFactory`
 
 同等の機能が本家に実装されるか、 PR を出して取り込まれたら削除する。
 
@@ -57,8 +52,8 @@ Android API に libwebrtc のビルド時のバージョンを取得する API �
 
 ## android_hardware_video_encoder.patch
 
-解像度が16の倍数でない場合、 HardwareVideoEncoder 初期化時などのチェックでエラーが発生するようになった。  
-Android CTS では解像度が16の倍数のケースしかテストされておらず、かつ、解像度が16の倍数でない映像を受信した際に問題が発生する端末があったことが理由で、上記のチェックが実装された。
+解像度が 16 の倍数でない場合、 HardwareVideoEncoder 初期化時などのチェックでエラーが発生するようになった。  
+Android CTS では解像度が 16 の倍数のケースしかテストされておらず、かつ、解像度が 16 の倍数でない映像を受信した際に問題が発生する端末があったことが理由で、上記のチェックが実装された。
 
 参照: https://webrtc-review.googlesource.com/c/src/+/229460
 
@@ -81,19 +76,47 @@ PeerConnectionDependencies dependencies = PeerConnectionDependencies
 PeerConnection pc = factory.createPeerConnection(rtcConfig, dependencies);
 ```
 
-## ios_build.patch
+## arm_neon_sve_bridge.patch
 
-iOS のビルドで発生した問題を修正するパッチ。  
-以下の変更が含まれている。
+iOS/macOS における libvpx ビルド時に `arm_neon_sve_bridge.h` が見つからずにエラーになる問題に対応するパッチ。
+このエラーは libwebrtc を M122 から M123 に更新したタイミングで発生した。
 
-- ビルドに Xcode に含まれる clang を使用する
-  - libwebrtc で指定されている clang を使用した場合、 bitcode を有効にしてビルドしたアプリを App Store Connect にアップロードする際にエラーが発生する可能性がある
-  - 参照: https://webrtchacks.com/the-webrtc-bitcode-soap-opera-saul-ibarra-corretge/
-  - こちらの修正には https://github.com/jitsi/webrtc/releases/tag/v100.0.0 で公開されている 001-build.diff を参考にした
-- bitcode を有効にした際に発生したビルド・エラーの修正
+`arm_neon_sve_bridge.h` は LLVM に含まれるファイルだが、 Homebrew でインストールした LLVM と Xcode では配置されているパスが異なっていた。
+`arm_neon_sve_bridge.h` をパッチで追加して libvpx のビルドで参照できるようにしたところ、ビルドが成功した。
 
-Xcode に含まれる clang を利用してビルドするオプションがメインストリームに実装された場合、このパッチは削除できる。  
-https://bugs.chromium.org/p/webrtc/issues/detail?id=13925
+```
+# llvm@15 では arm_neon_sve_bridge.h は存在しない
+$ find $(brew --prefix llvm@15)/lib | grep arm_neon
+/opt/homebrew/opt/llvm@15/lib/clang/15.0.7/include/arm_neon.h
+
+# llvm@16 から追加されている
+$ find $(brew --prefix llvm@16)/lib | grep arm_neon
+/opt/homebrew/opt/llvm@16/lib/clang/16/include/arm_neon_sve_bridge.h
+/opt/homebrew/opt/llvm@16/lib/clang/16/include/arm_neon.h
+
+# Xcode では tapi 以下に存在する
+$ find $(xcode-select --print-path) | grep arm_neon                                                           
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include/arm_neon.h
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/tapi/15.0.0/include/arm_neon_sve_bridge.h
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/tapi/15.0.0/include/arm_neon.h
+```
+
+シンボリック・リンクとして `$(xcode-select --print-path)/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang` 以下に `arm_neon_sve_bridge.h` を追加することでエラーが解消することも確認したが、以下の理由により採用しなかった。
+
+- Xcode のディレクトリに修正を加えるのは望ましくない
+- webrtc-build のリリース・バイナリを参照する他のリポジトリ (Sora C++ SDK, Sora Python SDK, Sora Unity SDK) でも同様の対応が必要になる
+
+また、ファイルの追加に伴い、リリース・バイナリの NOTICE ファイルに LLVM のライセンスを追加する必要が生じたため、 run.py も併せて修正した。
+このパッチが不要になった場合、その処理は削除する必要がある。
+
+M131 において libaom においても同様の問題が発生したので、両方 third_party 以下のため同じファイルを libaom にも配置する。
+libaom は include の angled と quotes を厳密に見るようなので、それにも対応する。
+
+## revert_asm_changes.patch
+
+dav1d/libdav1d/src/arm/asm.S に入った変更を取り消すパッチ。
+m124 のタイミングで aarch64 の拡張機能のサポートチェックをするようになり、そのチェックが失敗するとビルドが失敗するようになった。
+webrtc は aarch64 の拡張機能を使っていないため、このチェックは不要であり、このパッチで取り消す。
 
 ## ios_manual_audio_input.patch
 
@@ -103,6 +126,8 @@ iOS でのマイク不使用時のパーミッション要求を抑制するパ�
 
 以下に詳細を記載する。
 
+**注意:`923d1d4033cb14d893a01d313268f906e5d7568b` 以降 `RTCAudioSession+Configuration.mm` に追加していたログ出力を、 webrtc の変更に伴い削除**
+
 ### 内容
 
 - 接続時のマイクのパーミッション要求を抑制する。
@@ -110,18 +135,17 @@ iOS でのマイク不使用時のパーミッション要求を抑制するパ�
 - マイクの初期化を明示的に行う API を追加する。
   パッチ適用後はマイクは自動的に初期化されない。
 
-- ``AVAudioSession`` の初期化時に設定されるカテゴリを ``AVAudioSessionCategoryPlayAndRecord`` から ``AVAudioSessionCategoryAmbient`` に変更する。
-
+- `AVAudioSession` の初期化時に設定されるカテゴリを `AVAudioSessionCategoryPlayAndRecord` から `AVAudioSessionCategoryAmbient` に変更する。
 
 ### パッチ適用後の使い方
 
-- マイクを使う場合は ``RTCAudioSession.initializeInput(completionHandler:)`` を実行してマイクを初期化する。
+- マイクを使う場合は `RTCAudioSession.initializeInput(completionHandler:)` を実行してマイクを初期化する。
+
   - このメソッドはマイクが使用されるまで非同期で待ち、必要になったら初期化する。マイクの使用許可がなければユーザーにパーミッションを要求する。
   - 接続ごとに実行すること。接続が終了するとマイクは初期化前の状態に戻る。
-  - 実行前に ``RTCAudioSessionConfiguration.webRTCConfiguration.category`` にマイクを使用可能なカテゴリをセットすること。 ``AVAudioSessionCategoryPlayAndRecord`` など。
+  - 実行前に `RTCAudioSessionConfiguration.webRTCConfiguration.category` にマイクを使用可能なカテゴリをセットすること。 `AVAudioSessionCategoryPlayAndRecord` など。
 
-- マイクを使わない場合は ``Info.plist`` にマイクの用途を記述する必要はない。
-
+- マイクを使わない場合は `Info.plist` にマイクの用途を記述する必要はない。
 
 ### `RTCAudioSession` のロックについて
 
@@ -175,39 +199,31 @@ bool success = [session configureWebRTCSession:nil];
    }
 ```
 
-## ios_simulcast.patch
+## ios_proxy.patch
 
-iOS でのサイマルキャストのサポートを追加するパッチ。この実装は C++ の `SimulcastEncoderAdapter` の簡単なラッパーであり、既存の仕様に破壊的変更も行わない。
+iOS での Proxy のサポートを追加するパッチ。
+Objective-C では以下のように利用する。
 
-以下の API を追加する。
-
-- `RTCVideoEncoderFactorySimulcast`
-- `RTCVideoEncoderSimulcast`
-
-同等の機能が本家に実装されるか、 PR を出して取り込まれたら削除する。
-
-## macos_av1.patch
-
+```objc
+[factory peerConnectionWithConfiguration:configuration
+                             constraints:constraints
+                     certificateVerifier:certificateVerifier
+                                delegate:delegate
+                               proxyType:RTCProxyTypeHttps
+                              proxyAgent:@"user-agent"
+                           proxyHostname:@"192.168.100.11"
+                               proxyPort:3456
+                           proxyUsername:@"username"
+                           proxyPassword:@"password"]
+```
 
 ## macos_screen_capture.patch
 
-
-## macos_use_xcode_clang.patch
-
-大体 `ios_build.patch` と同じ内容のパッチ。
-
-WebRTC が用意している clang でビルドすると、M1 Mac で実行時エラーが発生してしまう。
-なので Xcode clang を利用してビルドするように修正する。
-
-## nacl_armv6_2.patch
-
-
-## ubuntu_nolibcxx.patch
-
+ユニバーサルズーム機能が有効でなくとも `helper_.InvalidateScreen` を呼ぶようにするパッチ。
 
 ## windows_build_gn.patch
 
-C++17 で deprecated されているコードを多数含むために _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS を追加している。
+C++17 で deprecated されているコードを多数含むために \_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS を追加している。
 
 ## ssl_verify_callback_with_native_handle.patch
 
@@ -218,3 +234,187 @@ WebRTC は Let's Encrypt のルート証明書を入れていないため、検�
 WebRTC は Let's Encrypt を含めていないので、Let's Encrypt の検証がうまくできないという点から本家に取り込んでもらうのは難しいと思われる。
 証明書チェーンが利用できない、という話を起点にすれば取り込んでもらえるかもしれない。
 ただし `SSL*` を渡すのは `OpenSSLCertificate` との兼ね合いを考えると筋が悪いので、本家用のパッチを書くのであれば清書する必要がある。
+
+## windows_add_deps.patch
+
+オーディオデバイス, zlib, log_sinks, サイマルキャストのエンコーダーアダプターを追加するパッチ。
+
+## windows_fix_audio_device.patch
+
+Windows の高負荷環境で録音デバイスの初期化に失敗する問題を修正するパッチ。
+この issue が解決すれば不要になる
+https://bugs.chromium.org/p/webrtc/issues/detail?id=14954
+
+## windows_silence_warnings.patch
+
+C++ 17 と C++ 20 の非推奨に関するワーニングを抑制するパッチ。
+
+## h265.patch
+
+WebRTC で H.265 を利用できるようにするパッチ。
+
+WebRTC に libwebrtc を使っている WebKit が H.265 に対応しているため、 WebKit で施されている H.265 対応差分を最新の libwebrtc に適用します。
+基本的には同名のファイルが徐々に最新の libwebrtc にも追加されて行っているため、最終的にはこのパッチは不要になると考えています。
+一部の関数などに引数の差異がありますが、その場合については libwebrtc の実装側が充実していることが多いため libwebrtc 側に寄せています。
+
+プラットフォーム差分についてはパッチを分割してあります。これはプラットフォーム差分は EncoderFactory や DecoderFactory より提供できるため、例えるならば H.265.patch + Sora C++ SDK の Jetson 対応コードという組み合わせで十分になるためです。
+
+## h265_android.patch
+
+Android で H.265 を利用できるようにするパッチ。
+
+h265.patch と併用することを前提とした Android で H.265 を利用できるようにするパッチです。
+現状ベースとするコードがないためオリジナルのパッチとなっていますが、 Android は標準関数がカバーする範囲が広くハードウェアエンコーダーのコーデック差異が少ないためコード量も少なく収まっています。
+libwebrtc の Android ハードウェアエンコード実装が H.265 に対応すると不要となると考えています。
+
+## h265_ios.patch
+
+iOS で H.265 を利用できるようにするパッチ。
+
+h265.patch と併用することを前提とした iOS で H.265 を利用できるようにするパッチです。
+WebKit で施されている H.265 対応差分を最新の libwebrtc に適用します。おそらく macOS も同様のコードで動作しますが現状では検証しておりません。
+libwebrtc の iOS ハードウェアエンコード実装が H.265 に対応すると不要となると考えています。
+
+## fix_moved_function_call.patch
+
+SesseionDescription のコールバック実行中に PeerConnection が破棄された時にクラッシュする問題を修正するパッチ。
+
+https://github.com/shiguredo/sora-cpp-sdk/blob/e1257a3e358e62512c0c77db5ba82f90e2e26353/src/session_description.cpp#L84-L94
+
+ここの中で sleep して、その間に SoraSignaling を破棄すると発生する。
+
+多分パッチを送った方がいいやつ。
+
+## ios_simulcast.patch
+
+iOS でのサイマルキャストのサポートを追加するパッチ。この実装は C++ の `SimulcastEncoderAdapter` の簡単なラッパーであり、既存の仕様に破壊的変更も行わない。
+以下の API を追加する。
+
+- `RTCVideoEncoderFactorySimulcast`
+- `RTCVideoEncoderSimulcast`
+
+同等の機能が本家に実装されたら削除する。
+
+[libwebrtcの変更](https://webrtc-review.googlesource.com/c/src/+/358866)を取り込んだため、従来の ios_simulcast.patch とは異なる。
+
+特に scalabilityMode は libwebrtc 側で NSString 記述となったため RTCScalabilityMode ENUM を削除した。変数名は同じだが NSNumber から NSString に型が変更になっているので注意すること。
+
+## android_simulcast.patch
+
+Android でサイマルキャストを実現するためのパッチ。
+
+パッチの詳細は [android_simulcast.patch の解説](./android_simulcast.md) を参照のこと。
+
+## remove_crel.patch
+
+[CREL](https://maskray.me/blog/2024-03-09-a-compact-relocation-format-for-elf) (compact relocation) を有効にするオプションを削除するパッチ。
+CREL は LLVM のリンカ(lld)特有の機能なので、これを有効にすると GNU のリンカ(ld)でリンクできなくなってしまうので削除する。
+
+手間の問題でパッチを当ててるけど、既存の webrtc-build を使ったアプリケーションを lld に置き換えた方が筋が良いかもしれない。
+
+## revert_siso.patch
+
+- 391480: Use Siso in iOS/Android build scripts | https://webrtc-review.googlesource.com/c/src/+/391480
+
+このコミットを revert したパッチ。
+
+siso を実行すると即座に `Error: can not detect exec_root: build/config/siso not found` というエラーが出てどうしようも無かったので revert する。
+
+## android_audio_pause_resume.md
+
+Android で録音一時停止・解除をできるようにするパッチ。
+
+パッチの詳細は [android_audio_pause_resume.patch の解説](./android_audio_pause_resume.md) を参照のこと。
+
+## android_audio_track_sink.patch
+
+Android SDK 向けに AudioTrackSink を提供し、AudioTrack ごとに PCM データを取得できるようにするための機能を追加するパッチ
+
+パッチの詳細は [android_audio_track_sink.patch の解説](./android_audio_track_sink.md) を参照
+
+## windows_fix_adm_device_count.patch
+
+Windows 向け ADM の RecordingDevices() と PlayoutDevices() の返す値を修正するパッチ。
+
+Windows 向け ADM の
+
+- `SetRecordingDevice()`, `SetPlayoutDevice()` といったアクティブなデバイスを選択する時に渡すインデックス
+- `RecordingDeviceName()`, `PlayoutDeviceName()` といったデバイス名を取得する時に渡すインデックス
+
+これらのインデックスは、必ず 0 が Default デバイスで、1 が Communitation デバイスとなる。
+
+そしてこれらの追加されたデバイスは **`RecordingDevices()` や `PlayoutDevices()` の戻り値には含まれていない** 。
+例えば有効なマイクデバイスが 2 個接続されている場合、`RecordingDevices()` は 2 を返すが、
+対応するインデックスは以下のようになる。
+
+ 0 - Default - マイク１
+ 1 - Communitation - マイク１
+ 2 - マイク１
+ 3 - マイク２
+
+そのためユーザー側で `for (int i = 0; i < adm->RecordingDevices(); i++) { ... }` のように実装しても、Windows では全てのデバイスを列挙できなくなっている。
+
+この問題を解決するために `RecordingDevices()` と `PlayoutDevices()` の戻り値を +2 するのがこのパッチの内容となっている。
+
+## unsafe_buffers_optout_list.patch
+
+m146 より [UnSafe Buffers Clang plugin](https://chromium.googlesource.com/chromium/src/+/refs/tags/146.0.7680.36/docs/unsafe_buffers.md) によるビルドチェックエラーが発生したため追加したパッチ。
+
+パッチにより新規追加したソースファイルがビルドチェックエラーとなったため、チェック除外リストである  [unsafe_buffers_paths.txt](https://source.chromium.org/chromium/chromium/src/+/main:third_party/webrtc/unsafe_buffers_paths.txt;l=1;bpv=1) にエラーとなったファイルを追加した。
+
+追加したファイルは以下の通り
+
+- h265.patch
+  - common_video/h265/h265_vps_parser.cc
+- android_proxy.patch
+  - rtc_base/http_common_revive.cc
+  - rtc_base/proxy_info_revive.cc
+  - rtc_base/socket_adapters_revive.cc
+
+エラーとなったパッチファイルについてビルドチェックエラーとならないようコード修正を行うことでこのパッチは削除できる。
+
+## ios_ssl_certificate_verifier_chain.patch
+
+`RTCSSLCertificateVerifier` に証明書チェーン検証用の `verifyChain:` を追加するパッチ。
+
+WebRTC C++ 側の `SSLCertificateVerifier::VerifyChain(const SSLCertChain&)` は証明書チェーンを扱えるが、
+ObjC ブリッジは leaf 証明書のみを渡していた。
+このパッチで `SSLCertChain` を `NSArray<NSData *>` (leaf first) に変換して ObjC へ渡せるようにする。
+
+互換性のため、`verifyChain:` を実装していない場合は従来どおり `verify:` に leaf 証明書を渡してフォールバックする。
+
+## android_ssl_certificate_verifier_chain.patch
+
+Android の `SSLCertificateVerifier` に証明書チェーンを渡せるように JNI ブリッジを拡張するパッチ。
+
+既存の `verify(byte[])` は互換性のため維持しつつ、 `verifyChain(byte[][])` を追加する。
+C++ 側では `SSLCertChain` 全体を `byte[][]` として Java に渡し、証明書チェーン検証を可能にする。
+
+## turn_tls_client_certificate.patch
+
+TURN-TLS 接続でクライアント証明書を指定できるようにするパッチ。
+
+`PacketSocketTcpOptions`、`RelayServerConfig`、`PeerConnectionInterface::IceServer` に
+クライアント証明書 (`SSLIdentity`) を保持するフィールドを追加し、
+`IceServer` から `RelayServerConfig`、`TurnPort`、`SSLAdapter` まで deep copy しながら伝搬する。
+
+`IceServer` と `RelayServerConfig` は既存コードでコピーされるため、
+`std::unique_ptr<SSLIdentity>` を保持しつつ copy semantics を維持するように
+コピーコンストラクタと代入演算子で `Clone()` を使って複製する。
+
+※ このパッチには iOS / Android SDK の変更は含まれていない。
+
+## android_turn_tls_client_certificate.patch
+
+Android SDK の `PeerConnection.IceServer` から TURN-TLS 用クライアント証明書を
+libwebrtc 本体の `PeerConnectionInterface::IceServer::tls_client_identity` へ橋渡しするパッチ。
+
+`PeerConnection.IceServer.Builder` に以下の API を追加する。
+
+- `setTlsClientCertificate(String privateKeyPem, String certificatePem)`
+
+`certificatePem` には単体の証明書でも証明書チェーンでも指定できる。
+内部では常に `SSLIdentity::CreateFromPEMChainStrings()` を使って
+`tls_client_identity` を生成する。
+
+`IceServer.toString()` には、秘密鍵や証明書 PEM は出力しない。

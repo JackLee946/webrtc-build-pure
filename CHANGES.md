@@ -1,268 +1,498 @@
 # 変更履歴
 
+- RELEASE
+  - タグの追加
 - UPDATE
-    - 下位互換がある変更
+  - 下位互換がある変更
 - ADD
-    - 下位互換がある追加
+  - 下位互換がある追加
 - CHANGE
-    - 下位互換のない変更
+  - 下位互換のない変更
 - FIX
-    - バグ修正
+  - バグ修正
 
 VERSION ファイルを上げただけの場合は変更履歴記録は不要。
-パッチやビルドの変更のみ記録すること。
-
-## master
-
-- [UPDATE] deprecated になった actions/create-release と actions/upload-release の利用をやめて softprops/action-gh-release を利用する
-    - @melpon
-- [UPDATE] GitHub Actions の各種バージョンを上げる
-    - @melpon
-- [CHANGE] macos_x86_64 のビルドを削除
-    - @melpon
-- [CHANGE] ubuntu-18.04_x86_64 のビルドを削除
-    - @melpon
-- [CHANGE] Docker でのビルドを削除
-    - @melpon
-
-## m111.5563.0.0
-
-- [CHANGE] 不要になった macos_h264_encoder.patch を削除
-    - @torikizi
-- [CHANGE] 不要になった windows_fix_towupper.patch を削除
-    - @torikizi
-
-## m103.5060.5.0
-
-- [ADD] iOS で Proxy を利用可能にする
-    - @melpon
-
-## m102.5005.7.6
-
-- [FIX] Android の Proxy 対応で PeerConnectionFactoryProxy を使っていなかったのを修正
-    - @melpon
-
-## m102.5005.7.5
-
-- [ADD] ubuntu-22.04_x86_64 追加
-    - @melpon
-
-## m102.5005.7.4
-
-- [FIX] macOS のビルドでも Xcode Clang を利用する
-    - @melpon
-
-## m102.5005.7.3
-
-- [ADD] Android で Proxy を利用可能にする
-    - @melpon
-
-## m102.5005.7.2
-
-- [FIX] macOS はホストの libc++ を利用する
-    - @melpon
-
-## m102.5005.7.1
-
-- [FIX] iOS のビルドに、 Xcode に含まれる clang を使用する
-    - こちらのパッチを作成するにあたり、以下の記事とパッチを参考にしました
-    - https://webrtchacks.com/the-webrtc-bitcode-soap-opera-saul-ibarra-corretge/
-    - https://github.com/jitsi/webrtc/releases/tag/v100.0.0
-    - @enm10k
-
-## m101.4951.5.1
-
-- [ADD] ubuntu-20.04_armv8 を追加
-    - @tnoho
-- [FIX] Android の HardwareVideoEncoder に実装された解像度の制限を回避するパッチを追加する
-    - @enm10k
-
-## m96.4664.2.1
-
-- [FIX] android_simulcast.patch を修正して、 SimulcastVideoEncoderFactory の fallback に null を渡せるようにする
-    - @enm10k
-
-## m93.4577.8.1
-
-- [FIX] third_party/libjpeg_turbo の jpeglibmangler.h が機能していない問題を修正するパッチを追加する
-    - @enm10k
-
-## m92.4515.9.1
-
-- [CHANGE] libwebrtc_onremovetrack.aar を廃止して、 libwebrtc.aar に android_onremovetrack.patch を適用する
-    - @enm10k
-
-## m91.4472.9.3
-
-- [ADD] 各環境のバイナリに zlib を追加
-    - @melpon
-
-## m91.4472.9.2
-
-- [ADD] Windows のバイナリに zlib を追加
-    - @melpon
-
-## m90.4430.3.2
-
-- [CHANGE] iOS にサイマルキャスト対応のパッチを追加
-    - @szktty @enm10k
-
-## m90.4430.3.1
-
-- [FIX] iOS で発生したロックの競合を解消する
-    - @melpon @enm10k
-
-## m89.4389.5.6
-
-- [CHANGE] Android にサイマルキャスト対応のパッチを追加
-    - @szktty @enm10k
-
-## m89.4389.5.5
-
-- [FIX] Android で SEGV することがあるのを修正
-    - @melpon
-
-## m89.4389
-
-- [CHANGE] ubuntu-18.04_armv8 向けに `libjpeg_mangle.patch` を追加
-    - @tnoho @melpon
-
-## m88.4324.3.1
-
-- [ADD] Apple Silicon 用ビルド (macos_arm64) を追加
-    - @hakobera
-- [CHANGE] Apple Silicon 対応に伴い、既存の macos を macos_x86_64 に変更する
-    - @hakobera
-
-## m88.4324.0.0
-
-- [CHANGE] Linux の x86_64 にも `rtc_use_pipewire=false` を設定
-    - @melpon
-- [FIX] armv6用パッチの修正
-    - @melpon
-
-## m86.4240.1.2 (2020/8/31)
-
-- [ADD] centos-8_x86_64 ビルドを追加
-    - @melpon
-
-- [FIX] macOS でサイマルキャストを行うとセグフォが起きていたのを修正
-    - @melpon
-
-## m84.4147.11.3 (2020/8/12)
-
-- [FIX] Windows に NOTICE ファイルが入っていなかったのを修正
-    - @melpon
-
-## m84.4147.11.2 (2020/8/9)
-
-- [ADD] iOS 用のパッチを追加
-    - @melpon
-
-## m84.4147.11.1 (2020/8/5)
-
-- [ADD] iOS 用ビルドを追加
-    - @melpon
-
-## m84.4147.7.3 (2020/6/23)
-
-- [FIX] macOS 版の .a 内のファイル名が15文字で切られていたのを修正
-    - @melpon
-
-## m84.4147.7.2 (2020/6/16)
-
-- [ADD] raspberry-pi-os_armv8 を追加
-    - @melpon
-
-## m84.4147.7.0 (2020/6/15)
-
-- [CHANGE] raspbian-buster を raspberry-pi-os に変更する
-    - @melpon
-
-## m83.4103.12.2 (2020/5/26)
-
-- [ADD] AAR パッケージの削除処理を Revert して Android に AAR を追加する
-    - @enm10k
-
-## m83.4103.12.1 (2020/5/16)
-
-- [ADD] Android 用ビルドを追加
-    - @melpon
-
-## m83.4103.9.0
-
-- [UPDATE] WebRTC のバージョンを 4103@{#9} に上げる
-    - @voluntas
-
-## m83.4103.2.0
-
-- [UPDATE] WebRTC のバージョンを 4103@{#2} に上げる
-    - @voluntas
-
-## m81.4044.13.2
-
-m81.4044.13.0,1 はリリースミスのためスキップ。
-
-- [UPDATE] ビルド時にライセンスの生成を行う
-    - @melpon
-- [UPDATE] WebRTC のバージョンを 4044@{#13} にもどす
-    - @voluntas
-
-## m81.4044.11.0
-
-- [UPDATE] WebRTC のバージョンを 4044@{#11} に上げる
-    - @voluntas
-
-## m81.4044.10.0
-
-- [FIX] enable_libaom_decoder=false にする
-    - @tnoho @melpon
-- [FIX] enable_libaom_decoder は deprecated なので enable_libaom=false にする
-    - @melpon
-- [FIX] ubuntu-18.04_armv8 の rootfs が Ubuntu 16.04 になっていたのを修正
-    - @melpon
-- [UPDATE] WebRTC のバージョンを 4044@{#10} に上げる
-    - @voluntas
-
-## m81.4044.9.0
-
-- [UPDATE] WebRTC のバージョンを 4044@{#9} に上げた
-    - @voluntas
-
-## m81.4044.7.0
-
-- [UPDATE] WebRTC のバージョンを 4044@{#7} に上げた
-
-## m80.3987.6.0
-
-- [UPDATE] WebRTC のバージョンを 3987@{#6} に上げた
-
-## m80.3987.2.2
-
-- [FIX] Windows 版に 4K パッチが適用されていなかったのを修正
-
-## m80.3987.2.1
-
-- [FIX] Windows 版の VERSIONS ファイルのフォーマットが UTF-8 になっていなかったのを修正
-
-## m80.3987.2.0
-
-- [UPDATE] WebRTC のバージョンを 3987@{#2} に上げた
-- [UPDATE] WebRTC バージョンの命名ルールを変更
-
-## m79.5.4
-
-- [ADD] バイナリの `VERSIONS` にいくつかのバージョン情報を追加
-
-## m79.5.3
-
-- [ADD] ubuntu-16.04_x86_64 を追加
-- [ADD] ubuntu-16.04_armv7 を追加
-
-## m79.5.2
-
-- [ADD] バイナリにライセンスファイルを追加
-
-## m79.5.1
-
-- [CHANGE] H264 を使わないようにする
+パッチやビルドの変更、リリース時のみ記録すること。
+
+- タイムライン型の変更履歴
+- 必ず一番上に書く
+- リリース時には [RELEASE] を追加する
+
+## 例
+
+- 2024-03-01 [RELEASE] m127.0.0.1
+  - @voluntas
+- 2023-02-01 [ADD] h266.patch を追加
+  - @melpon
+- 2022-01-01 [FIX] h265.patch のバグを修正
+  - @melpon
+
+## タイムライン
+
+- 2026-05-05 [RELEASE] m148.7778.7.0
+  - @torikizi
+- 2026-04-30 [RELEASE] m148.7778.6.0
+  - @torikizi
+- 2026-04-23 [RELEASE] m148.7778.5.0
+  - @torikizi
+- 2026-04-22 [RELEASE] m148.7778.4.0
+  - @torikizi
+- 2026-04-16 [UPDATE] m148 ブランチのビルドエラーに対する対応
+  - h265.patch の単純なパッチ適用エラーを修正する
+  - libwebrtc の ArrayView から std::span への移行によって h265_vps_parser.cc の include が `array_view.h` から `span` に変わったことに伴う単純なパッチ適用エラーを修正する
+    - 参考 : https://issuetracker.google.com/issues/439801349
+  - @torikizi
+- 2026-04-06 [RELEASE] m146.7680.6.1
+  - @zztkm
+- 2026-04-06 [ADD] TURN-TLS 接続でクライアント証明書を設定する機能を Android SDK から使えるようにする
+  - @zztkm
+- 2026-04-01 [RELEASE] m146.7680.6.0
+  - @torikizi
+- 2026-03-31 [RELEASE] m147.7727.9.0
+  - @torikizi
+- 2026-03-27 [RELEASE] m147.7727.8.0
+  - @torikizi
+- 2026-03-27 [RELEASE] m146.7680.5.0
+  - @torikizi
+- 2026-03-18 [RELEASE] m147.7727.6.0
+  - @miosakuma
+- 2026-03-18 [UPDATE] m147 ブランチのビルドエラーに対する対応
+  - h265_ios.patch について、ArrayView から std::span へ移行する
+     - libwebrtc の ArrayView から std::span への移行に追従する
+     - 参考 : https://issuetracker.google.com/issues/439801349
+  - h265_ios.patch の単純なパッチ適用エラーを修正する
+  - android_simulcast.patch について sdk/android の simulcast_jni にenvironment_construction を追加する
+    - libwertc の以下のコミットにより allow_poison に environment_construction が追加されたため、android_simulcast.patch にも同様の変更を加える
+      - https://source.chromium.org/chromium/_/webrtc/src/+/7962f775089e67780c29381f086485d810af1385
+  - android_proxy.patch の単純なパッチ適用エラーを修正する
+  - @miosakuma
+- 2026-03-18 [RELEASE] m146.7680.3.1
+  - @zztkm
+- 2026-03-17 [ADD] TURN-TLS 接続でクライアント証明書を設定する機能を追加する
+  - @zztkm
+- 2026-03-16 [UPDATE] Docker Image の削除コマンドをコメントアウトアウトする
+  - 不定期に `failed to connect to the docker API at npipe:////./pipe/docker_engine;` というエラーが出て Disk Cleanup が失敗することがあったためコメントアウトする
+  - Docker Image を削除しなくても libwebrtc のビルドするためのディスク容量が足りているため削除する
+  - @zztkm
+- 2026-03-13 [RELEASE] m146.7680.3.0
+  - @miosakuma
+- 2026-03-10 [RELEASE] m146.7680.1.0
+  - @torikizi
+- 2026-03-09 [RELEASE] m146.7680.0.1
+  - @t-miya
+- 2026-03-09 [ADD] iOS SDK 向けの RTCAudioDeviceModule に音声バイパスを設定できるコンストラクタを追加する
+  - ios_audio_pause_resume.patch への追加
+  - @t-miya
+- 2026-03-06 [ADD] RTCSSLCertificateVerifier に verifyChain を追加する
+  - `SSLCertificateVerifier::VerifyChain(const SSLCertChain&)` と ObjC の `RTCSSLCertificateVerifier` を接続する ObjC/C++ ブリッジを追加する
+  - `verifyChain:` 未実装時は `verify:` へフォールバックする
+  - @zztkm
+- 2026-02-27 [RELEASE] m146.7680.0.0
+  - @miosakuma
+- 2026-02-27 [UPDATE] m146 ブランチのビルドエラーに対する対応
+  - fix_perfetto.patch を削除する
+    - m146 の libwebrtc で修正されパッチが不要となったため削除する
+      - 修正コミット : https://source.chromium.org/chromium/_/webrtc/src/+/4354263f56b6ffb11eeec5768c2d8d19329f5bcf
+  - android_fixsegv.patch の一部分を削除する
+    - m146 の libwebrtc で同内容の修正がされたため、修正された箇所について削除する
+      - 修正コミット : https://source.chromium.org/chromium/_/webrtc/src/+/4c8e0efeaf96dd565c1934e40a80ef9c7fe44f9b
+      - 修正コミット : https://source.chromium.org/chromium/_/webrtc/src/+/ebe20e49c945deb4f4740eccdc06eae013036aba
+  - android_proxy.patch の一部分を削除する
+    - m146 の libwebrtc で同内容の変更が行われたため該当箇所を削除する
+      - 対象コミット : https://source.chromium.org/chromium/_/webrtc/src/+/eee78e7541901da05e34dd5301f3609a8bd9b30f     
+  - unsafe_buffers_optout_list.patch を追加する
+    - unsafe-buffer-usage ビルドエラーが発生しないよう、パッチで作成するファイルをチェック除外リストに含める
+  - windows_add_deps.patch のズレを修正する
+  - @miosakuma
+- 2026-01-29 [RELEASE] m145.7632.0.0
+  - @t-miya
+- 2026-01-29 [FIX] m145 Android ターゲットのビルドエラーを修正する
+  - android_proxy.patch を修正する
+    - peer_connection_factory.cc 内で JavaParamRef が JavaRef に置き換えられたため
+    - 参考 : https://source.chromium.org/chromium/_/webrtc/src/+/353dedc23f412f90216c4bd45407fe52f8a3bfbb
+  - @t-miya
+- 2026-01-26 [RELEASE] m144.7559.2.2
+  - @t-miya
+- 2026-01-20 [ADD] iOS SDK 向けの RTCAudioSession に setInitialMicrophoneMute を追加する
+  - ios_manual_audio_input.patch への追加
+  - iOS 実機のマイクインジケータが消灯状態で開始できるようにする
+  - `RTCAudioSession::finishInitializeInput` での Audio input 初期化時にマイク入力を無効にできるようにする
+  - @t-miya
+- 2025-12-26 [RELEASE] m144.7559.2.1
+  - @t-miya
+- 2025-12-26 [RELEASE] m143.7499.3.2
+  - @t-miya
+- 2025-12-25 [ADD] iOS SDK 向けの AudioDeviceIOS の PauseRecording/ResumeRecording を修正する
+  - 内部で `VoiceProcessingAudioUnit::SetMicrophoneMute` を呼び出す `AudioDeviceIOS::ReinitAudioUnitForMicrophoneMute(bool)` を追加する
+    - PauseRecording/ResumeRecording から呼び出す
+  - @t-miya
+- 2025-12-24 [RELEASE] m144.7559.2.0
+  - @torikizi
+- 2025-12-17 [RELEASE] m144.7559.1.1
+  - @torikizi
+- 2025-12-17 [RELEASE] m143.7499.3.1
+  - @t-miya
+- 2025-12-17 [ADD] iOS SDK に RTCAudioDeviceModule を追加する
+  - iOS 実機のマイクインジケータが消灯状態のミュートをできるようにする
+  - RTCPeerConnectionFactory に RTCAudioDeviceModule を引数とする initWithEncoderFactory:decoderFactory:audioDeviceModule: を追加する
+  - RTCAudioDeviceModule は公開 API として pauseRecording/resumeRecording を持つ
+  - AudioDeviceModuleIOS に PauseRecording/ResumeRecording を追加する
+  - AudioDeviceIOS に PauseRecording/ResumeRecording を追加する
+  - PauseRecording による録音停止の状態から ResumeRecording 実行なしに StopRecording を呼ぶことができる
+  - @t-miya
+- 2025-12-16 [RELEASE] m144.7559.1.0
+  - @torikizi
+- 2025-12-16 [RELEASE] m143.7499.3.0
+  - @torikizi
+- 2025-12-12 [RELEASE] m144.7559.0.1
+  - @zztkm
+- 2025-12-12 [RELEASE] m143.7499.2.1
+  - @zztkm
+- 2025-12-10 [ADD] iOS SDK 向けに RTCAudioTrackSink を追加する
+  - RTCAudioTrackSink を実装して、RTCAudioTrack に関連付けると音声トラックごとに PCM 音声データを取得することができる
+  - @zztkm
+- 2025-12-09 [UPDATE] revive_proxy.patch の単純なパッチ適用エラーを修正
+  - Windows の単純なパッチ適用エラーを修正
+    - port_allocator.h
+    - port_interface.h
+  - @torikizi
+- 2025-12-08 [CHANGE] ios_revive_copy_framework_header.patch を削除
+  - libwebrtc で修正されたため、パッチを削除する
+    - 参考リンク : https://source.chromium.org/chromium/_/webrtc/src/+/1d832acb82092850131c2d2395108d6779a40782
+  - @torikizi
+- 2025-12-04 [CHANGE] revive_proxy.patch を修正
+  - libwebrtc 側での変更に追従して SignalConnectEvent / SignalReadEvent / SignalCloseEvent を以下のように修正
+    - NotifyConnectEvent
+    - NotifyReadEvent
+    - NotifyCloseEvent
+  - 参考リンク : [NotifyConnectEvent と NotifyCloseEvent の変更](https://source.chromium.org/chromium/_/webrtc/src/+/f938898734b36d72a81794cecf838693a4293cf5)
+  - 参考リンク : [NotifyReadEvent への変更](https://source.chromium.org/chromium/_/webrtc/src/+/bd1d02f84b89b5136fc09cfc10e04cbe53d741f4)
+  - @torikizi
+- 2025-11-13 [RELEASE] m143.7499.1.0
+  - @torikizi
+- 2025-11-13 [ADD] windows_fix_adm_device_count.patch を追加して Windows 向け ADM の RecordingDevices() と PlayoutDevices() の返す値を修正する
+  - @melpon
+- 2025-11-06 [RELEASE] m143.7499.0.0
+  - @torikizi
+- 2025-11-06 [UPDATE] m143 ブランチのビルドエラーを修正する
+  - revive_proxy.patch の単純なパッチ適用エラーを修正
+  - ssl_verify_callback_with_native_handle.patch の単純なパッチ適用エラーを修正
+  - android_proxy.patch の単純なパッチ適用エラーを修正
+  - @melpon
+- 2025-11-06 [RELEASE] m142.7444.2.1
+  - @t-miya
+- 2025-11-06 [RELEASE] 142.7444.2.1
+  - @t-miya
+- 2025-11-05 [FIX] Android SDK の `WebRtcAudioRecord` で pause 状態時に `stopRecording()` を呼び出すとエラーが出る問題を修正する
+  - WebRtcAudioRecord の pauseRecording() により audioThread が null となるため stopRecording() に audioThead の null チェックを行う分岐を追加する
+  - @t-miya
+- 2025-10-31 [RELEASE] m142.7444.2.0
+  - @torikizi
+- 2025-10-30 [CHANGE] m142 ブランチのビルドエラーを修正する
+  - remove_crel.patch の単純なパッチ適用失敗を修正
+  - https://webrtc-review.googlesource.com/c/src/+/409500 の変更に対する修正
+    - `JavaParamRef<jobject>(env, obj)` ではなく `JavaRef<jobject>::CreateLeaky(env, obj)` を使うようにする
+    - `ScopedJavaLocalRef<jobject>(env, obj)` ではなく `ScopedJavaLocalRef<jobject>::Adopt(env, obj)` を使うようにする
+  - https://webrtc-review.googlesource.com/c/src/+/410140 の変更に対する修正
+    - `PeerConnectionFactory` の protected なコンストラクタが `env` を受け取るようになったので明示的に渡すようにする
+    - `ConnectionContext` から `env()` 関数が削除されたので `CreateEnvironment()` に置き換える
+- 2025-10-26 [RELEASE] m141.7390.3.3
+  - @melpon
+- 2025-10-25 [FIX] iOS SDK でヘッダーのインクルードでエラーが出る問題を修正
+  - @melpon
+- 2025-10-23 [RELEASE] m141.7390.3.2
+  - @zztkm
+- 2025-10-22 [ADD] Android SDK 向けに AudioTrackSink 機能を追加する
+  - AudioTrackSink を利用すると AudioTrack ごとに PCM 音声データを取得することができる
+  - @zztkm
+- 2025-10-17 [RELEASE] m141.7390.3.1
+  - @t-miya
+- 2025-10-16 [RELEASE] m140.7339.2.4
+  - @t-miya
+- 2025-10-16 [RELEASE] m140.7339.2.3
+  - @t-miya
+- 2025-10-16 [ADD] Android SDK の JavaAudioDeviceModule に公開 API として pauseRecording()/resumeRecording() を追加する
+  - Android 実機のマイクインジケータが消灯状態のミュートをできるようにする
+  - 呼び出し先として録音処理を行う WebRtcAudioRecord に以下の機能を追加する
+    - 録音状態管理用に RecordingState Enum と recordingState プロパティを追加する
+    - pauseRecording()/resumeRecording() メソッドを追加する
+    - startRecording()/stopRecording() メソッド内に recordingState を更新する処理を追加する
+  - @t-miya
+- 2025-10-10 [RELEASE] m141.7390.3.0
+  - @torikizi
+- 2025-09-22 [RELEASE] m141.7390.2.0
+  - @torikizi
+- 2025-09-22 [UPDATE] m141 ブランチのビルドエラーを修正する
+  - remove_crel.patch の単純なパッチ適用失敗を修正
+  - ios_manual_audio_input.patch の単純なパッチ適用失敗を修正
+  - ios_simulcast.patch の修正
+    - RTCVideoEncoderSimulcast.mm で include していた `api/transport/field_trial_based_config.h` を削除
+      - libwebrtc の field_trial_based_config.h は削除されたため
+      - 参考 : https://source.chromium.org/chromium/_/webrtc/src/+/80b3659d7db613638946484010d440001d42fbb7
+  - android_include_environment_java.patch は libwebrtc 側で対応されたため削除
+    - 参考 : https://source.chromium.org/chromium/_/webrtc/src/+/dc0a35fe850060ed606107299ccd7ad3dcbd5809
+  - android_simulcast.patch の修正
+    - `sdk/android/src/jni/simulcast_video_encoder.cc` の `api/transport/field_trial_based_config.h` の include を削除
+      - libwebrtc 側 field_trial_based_config.h は削除されたため
+      - 参考 : https://source.chromium.org/chromium/_/webrtc/src/+/80b3659d7db613638946484010d440001d42fbb7
+    - `sdk/android/src/jni/pc/rtp_parameters.cc` の単純なパッチ適用失敗を修正
+  - revive_proxy.patch の単純なパッチ適用失敗を修正
+  - @torikizi
+- 2025-09-16 [RELEASE] m140.7339.2.2
+  - @torikizi
+- 2025-09-16 [UPDATE] DEPS の MACOS_DEPLOYMENT_TARGET を 14 にアップデートする
+  - @torikizi
+- 2025-09-12 [RELEASE] m140.7339.2.1
+  - @miosakuma
+- 2025-09-11 [RELEASE] m140.7339.2.0
+  - @melpon
+- 2025-09-11 [UPDATE] m140 に対応する
+  - `rtc::` を `webrtc::` に変更する
+  - `ios_sdk` 向けのビルドで使っている `build_ios.py` が、出力ディレクトリがソースディレクトリ以下でないとエラーを出すようになったので、`ios_sdk` のビルドの場合はソースディレクトリ以下に出力するように変更
+  - `adnroid_sdk` 向けのビルドで使っている `build_aar.py` が、出力ディレクトリがソースディレクトリ以下でないとエラーを出すようになったので、`android_sdk` のビルドの場合はソースディレクトリ以下に出力するように変更
+  - @melpon
+- 2025-09-11 [CHANGE] macOS, iOS のビルドに Xcode clang, libc++ ではなく libwebrtc が提供しているものを利用する
+  - これによって macOS, iOS で libwebrtc を利用してビルドする時に libwebrtc の clang, libc++ を指定しなければならなくなる
+  - @melpon
+- 2025-09-11 [CHANGE] android_sdk ビルドから armeabi-v7a 向けのバイナリを削除する
+  - @melpon
+- 2025-09-10 [RELEASE] m138.7204.0.5
+  - @miosakuma
+- 2025-09-05 [FIX] Android の Pixel 8, Pixel 9 について、VP9 と AV1 のサイマルキャストが行えない不具合を修正する
+  - AV1, VP9 ともハードウェアエンコーダーを持っている端末で不具合が発生する
+  - m136 で利用可能コーデック情報のリストを作成する際に重複を除外する処理が追加された結果、 `scalabilityMode` を保持しているコーデック情報が重複により除外され、サイマルキャストが行えなくなった
+    - https://source.chromium.org/chromium/_/webrtc/src/+/a22e244a8d22db2291cc51dcc4bdb0a54488c488:media/engine/webrtc_video_engine.cc;dlc=c2f1bc703d24f105ff3612f8e4ff7bea21a0aadf
+  - `HardwareVideoEncoderFactory` の `getSupportedCodecs()` に `scalabilityMode` を追加することで対応した
+  - @voluntas @melpon
+- 2025-09-05 [CHANGE] Android のサイマルキャストの利用可能コーデック情報リスト作成時に、エンコーダーから取得した情報のみを利用するように変更する
+  - SimulcastVideoEncoder でソフトウェアエンコーダーで利用可能なコーデック情報を常に取得していたが、指定したエンコーダーのコーデック情報のみを使用するようにする
+  - @voluntas @melpon
+- 2025-09-05 [UPDATE] Android Simulcast 用のパッチを整理
+  - パッチ構成の変更とリファクタリング: `android_add_scale_resolution_down_to.patch` を `android_simulcast.patch` に統合し、処理の見直しを行った
+  - @voluntas
+- 2025-09-05 [CHANGE] raspberry-pi-os_armv6 と raspberry-pi-os_armv7 を削除する
+  - @torikizi
+- 2025-09-02 [UPDATE] macOS GitHub Actions の `build-macos` から Ninja をインストールするステップを削除する
+  - 現在利用している `macos-14` には Ninja がインストール済みであるため本変更を行った
+  - @zztkm
+- 2025-08-14 [UPDATE] GitHub Actions の依存ライブラリをアップデート
+  - actions/download-artifact@v4 から actions/download-artifact@v5 にアップデート
+  - actions/checkout@v4 から actions/checkout@v5 にアップデート
+  - softprops/action-gh-release@v1 から softprops/action-gh-release@v2 にアップデート
+- 2025-08-06 [RELEASE] m138.7204.0.4
+  - @torikizi
+- 2025-08-05 [CHANGE] `ios` ビルドを `ios` と `ios_sdk` に、`android` ビルドを `android` と `android_sdk` に分ける
+  - 提供するバイナリやディレクトリ構成、ダウンロード URL が変わるため破壊的変更となります
+  - @melpon
+- 2025-08-01 [RELEASE] m139.7258.3.0
+  - @miosakuma
+- 2025-07-30 [UPDATE] m139 ブランチのビルドエラーに対する対応
+  - `h265_ios.patch` の単純なパッチ適用失敗を修正
+  - `ios_proxy.patch` の単純なパッチ適用失敗を修正
+  - `h265_ios.patch` の AnnexBBufferReader のパラメータ変更に対応
+    - https://source.chromium.org/chromium/_/webrtc/src/+/eddc465338ebef0993ffc71f607a1b6e6d6f070e
+  - @torikizi @miosakuma
+- 2025-07-22 [ADD] run.py に --no-history フラグを追加
+  - @melpon
+- 2025-07-14 [UPDATE] Raspberry Pi OS (armv8) のビルドを buster から bookworm にアップデートする
+  - multistrap の suite を buster から bookworm に修正
+  - libstdc++-8-dev を libstdc++-11-dev に変更
+  - libstdc++-11-dev には libgcc-11-dev が含まれているため、ライブラリアップデートに合わせて libgcc-8-dev を削除
+  - python-dev を python3-dev に変更
+  - @zztkm
+- 2025-07-11 [RELEASE] m138.7204.0.3
+  - @zztkm
+- 2025-07-11 [UPDATE] iOS の RTCResolutionRestriction に NSCopying プロトコルを実装する
+  - RTCResolutionRestriction クラスが NSCopying プロトコルに準拠するように修正
+  - @zztkm
+- 2025-07-03 [RELEASE] m138.7204.0.2
+  - @miosakuma
+- 2025-07-04 [UPDATE] android_include_environment_java.patch を追加する
+  - m138 で追加された `src/sdk/android/api/Environment.java` を libwebrtc.aar に追加するパッチ
+  - PeerConnectionFactory.java でのクラス参照エラーに対する対応
+  - @miosakuma
+- 2025-07-03 [RELEASE] m138.7204.0.1
+  - @torikizi
+- 2025-07-02 [RELEASE] m137.7151.3.1
+- 2025-07-02 [FIX] iOS でオーディオ処理が行われなくなる不具合を修正
+  - https://source.chromium.org/chromium/_/webrtc/src/+/11f487e72f22d92104c2b8770793285d5fe5dfa9 により、InitPlayOrRecord 内で audio_is_initialized_ を true に設定する仕様へ変更
+  - 既存の ios_manual_audio_input.patch は InitPlayOrRecord で早期リターンしていたため audio_is_initialized_ が設定されず、iOS で再生／録音が機能しなかった
+  - 早期リターン箇所にも audio_is_initialized_ = true を追加し、初期化漏れを解消
+  - @zztkm
+- 2025-06-16 [RELEASE] m138.7204.0.0
+  - @torikizi
+- 2025-06-12 [UPDATE] m138 ブランチのビルドエラーに対する対応
+  - `remove_crel.patch` の単純なパッチ適用失敗を修正
+  - `h265.patch` の単純なパッチ適用失敗を修正
+  - `android_proxy.patch` の単純なパッチ適用失敗を修正
+  - `update_expected_clang_version.patch` は不要になったので削除
+  - Windows で `revive_proxy.patch` がエラーになっていたのを修正
+    - 変数の shadowing でエラーになっていたので名前を被らないようにした
+  - iOS, macOS の `patches/ios_build.patch` と `patches/macos_use_xcode_clang.patch` の単純なパッチ適用失敗を修正
+  - iOS, Android のビルドスクリプトで siso がうまく動かなかったので `revert_siso.patch` で元に戻す
+  - Xcode 16.2 だとコンパイルエラーが出てたので、ローカルでビルドの通った Xcode 16.1 に落とす
+  - `build_ios_libs.sh` での iOS のビルドディレクトリが変わってたのでそれに追従
+  - @melpon
+- 2025-06-05 [RELEASE] m137.7151.3.0
+  - @miosakuma
+- 2025-05-26 [UPDATE] m137 ブランチのビルドエラーに対する対応
+  - libwebrtc の修正に追従して iOS / macOS / Android の `use_cxx17` オプションを削除
+  - update_expected_clang_version.patch を追加する
+    - update.py に定義されている clang のバージョンと DEPS に定義されているバージョンを一致させるパッチ
+    - 通常この値は一致しており、m137 のビルドを通すための限定パッチ
+  - rtc_base/third_party/base64 から rtc_base/base64 への移行
+    - libwebrtc 側の移行処理にパッチ処理を追従させる
+  - `BaseiPortAllocator` の変更に対する追従
+    - namespace を `cricket` から `webrtc` に変更
+    - BaseiPortAllocator のコンストラクタに Environment が追加されたので設定する処理を追加
+  - libwebrtc の `rtc::` から `webrtc::` への名前空間変更に追従する
+    - 以下のパッチの `rtc::revive` を `webrtc::revive` に変更を行った
+      - revive_proxy.patch
+      - ios_proxy.patch
+      - android_proxy.patch
+  - @miosakuma @melpon @torikizi
+- 2025-04-14 [RELEASE] m136.7103.0.0
+  - @torikizi
+- 2025-04-19 [CHANGE] libwebrtc で名前空間が rtc:: から  webrtc:: に変更されパッチを修正
+  - revive_proxy.patch を修正
+    - 名前空間の変更で rtc:: がスコープの外となったため `rtc::` を追加する
+  - @melpon
+- 2025-04-19 [UPDATE] rtp_video_stream_receiver2.cc へのパッチ内容が libwebrtc と一致するようになったため削除する
+  - @melpon
+- 2025-04-19 [CHANGE] libwebrtc の Rust ビルドを無効化
+  - libwebrtc に Rust ビルドを有効にする GN オプションが追加されたため、無効にする
+  - run.py の `COMMON_GN_ARGS` に rust のビルドを無効にするオプションを追加する
+  - @melpon
+- 2025-04-19 [UPDATE] ビルド環境の Xcode バージョンを 16.1 にアップデートする
+  - @melpon
+- 2025-04-14 [RELEASE] m135.7049.3.1
+  - @torikizi
+- 2025-04-12 [RELEASE] m134.6998.1.2
+  - @torikizi
+- 2025-04-11 [RELEASE] m133.6943.4.2
+  - @torikizi
+- 2025-04-08 [RELEASE] m135.7049.3.0
+  - @torikizi
+- 2025-04-07 [CHANGE] リリース対象から ubuntu-20.04_x86_64 を削除する
+  - @miosakuma
+- 2025-04-07 [UPDATE] Github Actions のビルド実行環境を Ubuntu 20.04 から Ubuntu 24.04 にあげる
+  - 対象のビルドターゲットは以下の通り
+    - ubuntu-20.04_armv8
+    - raspberry-pi-os_armv6
+    - raspberry-pi-os_armv7
+    - raspberry-pi-os_armv8
+  - @miosakuma
+- 2025-04-03 [RELEASE] m135.7049.2.1
+  - @miosakuma
+- 2025-04-02 [RELEASE] m134.6998.1.1
+  - @melpon
+- 2025-04-02 [ADD] libyuv_use_sme=false を追加
+  - @melpon
+- 2025-04-02 [ADD] remove_crel.patch を追加
+  - @melpon
+- 2025-03-28 [RELEASE] m135.7049.2.0
+  - @miosakuma
+- 2025-03-25 [UPDATE] m135 ブランチのビルドエラーに対する対応
+  - ios_build.patch
+    - コメントアウトしていた行に修正がありパッチエラーとなっていたため再度コメントアウトした
+  - windows_fix_optional.patch を削除する
+    - absl::optional が削除され、std::optional を使うようになった
+    - https://chromium.googlesource.com/external/github.com/abseil/abseil-cpp/+/22b1f421fa678434722202f2a883a565b7de5343%5E%21/
+- 2025-03-04 [RELEASE] m134.6998.1.0
+  - @miosakuma
+- 2025-02-28 [UPDATE] m134 ブランチのビルドエラーに対する対応
+  - ios_fix_optional.patch の内容を h265_ios.patch に統一して、ios_fix_optional.patch を削除する
+    - パッチの内容をまとめて簡素化を行った
+  - フォーマット変更によるパッチのずれの修正
+  - android_remove_rust_dependency.patch を削除する
+    - 以下の libwebrtc の CL が反映されたため、パッチを削除する
+    - https://webrtc-review.googlesource.com/c/src/+/376240
+  - @miosakuma
+- 2025-02-21 [RELEASE] m133.6943.4.1
+  - WebRTC.xcframework.zip をリリースに追加するためのリリースであり、動作の変更はなし
+  - @miosakuma
+- 2025-02-18 [ADD] Sora iOS SDK 用に WebRTC.xcframework.zip をリリースバイナリに追加する
+  - Sora iOS SDK の CocoaPods 廃止対応に伴い、WebRTC.xcframework.zip の配布場所を sora-ios-sdk-specs リポジトリから WebRTC-Build に変更するための追加
+  - run.py の package コマンドにターゲットが ios のときに WebRTC.xcframework.zip を生成する機能を追加
+  - GitHub Actions に platform が ios の場合に WebRTC.xcframework.zip をリリースにアップロードする仕組みを追加
+  - @zztkm
+- 2025-02-18 [RELEASE] m133.6943.4.0
+  - @miosakuma
+- 2025-02-07 [RELEASE] m132.6834.5.8
+  - @melpon
+- 2025-02-07 [CHANGE] RTCDefaultVideoEncoderFactory が返すフォーマットの一覧を scalability_mode に対応する
+  - @melpon
+- 2025-02-03 [UPDATE] m133 ブランチのビルドエラーに対する対応
+  - build/config/compiler/BUILD.gn の変更に伴い、 macos_use_xcode_clang.patch を修正する
+    - is_linux が実行条件の分岐が追加されていたため、macOS(is_mac) には不要であるため削除した
+  - build/config/compiler/BUILD.gn の変更に伴い、 ios_build.patch を修正する
+    - is_linux が実行条件の分岐が追加されていたため、iOS(is_ios) には不要であるため削除した
+  - p2p/base/port.h の変更に伴い、 revive_proxy.patch を修正する
+  - revive_proxy.patch に不要な rtc_base/BUILD.gn.rej の差分があったため削除する
+  - window_add_optional.patch は不要となったので削除する
+  - iOS のビルドオプション "-fvisibility-global-new-delete" を指定しないようにする
+    - unknown argument でビルドエラーとなるため
+  - Android のビルドから rust への依存を削除する
+    - 以下の CL と同内容のパッチを android_remove_rust_dependency.patch として追加する
+      - https://webrtc-review.googlesource.com/c/src/+/376240
+    - 上記対応が入ったらこのパッチは削除する
+  - Android のビルドオプションに `libyuv_include_tests=false` を追加する
+    - 設定しないと Rust を利用してしまうため設定を行った
+    - 本家では Rust を利用しないよう対応済みだが、テストは無効にできた方が望ましいため、このオプションは今後も維持する
+  - @miosakuma, @melpon
+- 2025-02-03 [RELEASE] m132.6834.5.7
+  - @zztkm
+- 2025-02-03 [RELEASE] m132.6834.5.6
+  - @zztkm
+- 2025-01-31 [UPDATE] iOS の scaleResolutionDownTo のプロパティの setter を assign から copy に変更する
+  - @zztkm
+- 2025-01-30 [RELEASE] m132.6834.5.5
+  - @melpon
+- 2025-01-30 [FIX] Windows のビルド依存に api:enable_media_with_defaults を追加し忘れていた
+  - @melpon
+- 2025-01-30 [RELEASE] m132.6834.5.4
+  - @melpon
+- 2025-01-30 [ADD] ビルド依存に api:enable_media_with_defaults を追加
+  - @melpon
+- 2025-01-27 [RELEASE] m132.6834.5.3
+  - @torikizi
+- 2025-01-25 [ADD] Android と iOS の RtpEncodingParameters に scaleResolutionDownTo を定義する
+  - @melpon
+- 2025-01-23 [RELEASE] m132.6834.5.2
+  - @miosakuma
+- 2025-01-23 [FIX] apt_install_x86_64.sh の `apt-get update` のコメントアウトを解除
+  - apt-get install で vim のパッケージが 404 エラーになったため
+  - @miosakuma
+- 2025-01-22 [FIX] kVTVideoEncoderSpecification_RequiredLowLatency を h265_ios.patch から削除する
+  - libwebrtc を組み込んだ iOS アプリを App Store Connect にアップロードが失敗する問題への対処
+  - 非公開シンボルである kVTVideoEncoderSpecification_RequiredLowLatency を参照しているとのエラーメッセージであったため、参照している箇所を削除した
+  - @miosakuma
+- 2025-01-14 [RELEASE] m132.6834.5.1
+  - @miosakuma
+- 2024-12-20 [RELEASE] m132.6834.5.0
+  - @melpon @torikizi
+- 2024-12-20 [RELEASE] m132.6834.4.0
+  - ios_proxy.patch を libwebrtc 側の処理変更に追従して修正する
+  - @melpon
+- 2025-01-10 [RELEASE] m130.6723.2.1
+  - @miosakuma
+- 2025-01-10 [CHANGE] libwebrtc の iOS Simulcast 対応が不十分だったので、`ios_simulcast.patch` パッチを復活させた。 scalabilityMode の型が変更になっている。詳細は[こちら](patches/README.md#ios_simulcastpatch)
+  - @tnoho
+- 2024-12-14 [RELEASE] m131.6778.4.0
+  - apt_install_arm.sh の `apt update` のコメントアウトを解除
+  - @torikizi
+- 2024-11-25 [RELEASE] m131.6778.3.1
+  - @melpon
+- 2024-11-25 [FIX] `*.inc` ファイルもリリースに含める
+  - @melpon
+- 2024-11-25 [RELEASE] m131.6778.3.0
+  - @torikizi
+- 2024-11-24 [ADD] windows_add_optional.patch を追加
+  - @tnoho
+- 2024-11-24 [FIX] arm_neon_sve_bridge.patch を修正
+  - m131 で libvpx 向けだった arm_neon_sve_bridge.patch と同様の対応が libaom にも必要になったため修正
+  - @tnoho
+- 2024-10-18 [RELEASE] m129.6668.1.1
+  - @melpon
+- 2024-10-18 [ADD] fix_moved_function_call.patch を追加
+  - @melpon
